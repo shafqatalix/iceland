@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C#: iceland",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/iceland/iceland.csproj",
+      "launchConfigurationId": "TargetFramework=;iceland"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+.cache
+obj/
+bin/
+nupkg/
+
+
+# Visual Studio and VS Code settings folders
+.vs/
+#.vscode/
+
+# MSBuild Binary and Structured Log
+*.binlog
+
+# Approval tests
+*.received.*
+.DS_Store
+
+
+local.sh
+
