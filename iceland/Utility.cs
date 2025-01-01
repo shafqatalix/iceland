@@ -1,11 +1,16 @@
 ﻿using System.CodeDom;
 using System.CodeDom.Compiler;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using Microsoft.CSharp;
 
-public static class Utility
+public class Utility
 {
-
+	public static string Version = Assembly.GetEntryAssembly()?
+								   .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+								   .InformationalVersion
+								   .ToString()??"";
 	private static string GetAbsolutePath(string basePath)
 	{
 		return Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, basePath));
@@ -97,16 +102,27 @@ public static class Utility
 		var result=@$"
 		{{
 		""Database"":""{metadata.Database}"",
-		""Procedures"":[##PROCS##] 
+		""Procedures"":[##PROCS##],
+		""UserDefinedTypes"":[##TYPES##] 
 		}}
 		";
-		var procs=new StringBuilder();
+		var data=new StringBuilder();
 		foreach (var i in metadata.Procedures)
 		{
-			procs.Append(i.ToJson());
-			procs.Append(",");
+			data.Append(i.ToJson());
+			data.Append(",");
 		}
-		return result.Replace("##PROCS##", procs.ToString());
+		result = result.Replace("##PROCS##", data.ToString());
+
+		data = new StringBuilder();
+		foreach (var i in metadata.UserDefinedTypes)
+		{
+			data.Append(i.ToJson());
+			data.Append(",");
+		}
+		result = result.Replace("##TYPES##", data.ToString());
+
+		return result;
 	}
 
 	public static string ReturnTypeClassName(Procedure procedure)
@@ -124,36 +140,7 @@ public static class Utility
 		return @$"{procedure.Name}Parameters";
 	}
 
-	/*
-		public static Dictionary<string, ParameterTypeMap> typeMapper = new Dictionary<string, ParameterTypeMap> {
-			{"bit", new ParameterTypeMap { ClrType = "bool?", DbType = "SqlDbType.Bit", LengthDivisor = null }},
-			{"tinyint", new ParameterTypeMap { ClrType = "byte?", DbType = "SqlDbType.TinyInt", LengthDivisor = null }},
-			{"smallint", new ParameterTypeMap { ClrType = "short?", DbType = "SqlDbType.SmallInt", LengthDivisor = null }},
-			{"int", new ParameterTypeMap { ClrType = "int?", DbType = "SqlDbType.Int", LengthDivisor = null }},
-			{"bigint", new ParameterTypeMap { ClrType = "long?", DbType = "SqlDbType.BigInt", LengthDivisor = null }},
-			{"varchar", new ParameterTypeMap { ClrType = "string?", DbType = "SqlDbType.VarChar", LengthDivisor = 1 }},
-			{"nvarchar", new ParameterTypeMap { ClrType = "string?", DbType = "SqlDbType.NVarChar", LengthDivisor = 2 }},
-			{"xml", new ParameterTypeMap { ClrType = "string?", DbType = "SqlDbType.NVarChar", LengthDivisor = 2 }},
-			{"char", new ParameterTypeMap { ClrType ="string?" , DbType = "SqlDbType.Char", LengthDivisor = 1 }},
-			{"nchar", new ParameterTypeMap { ClrType = "string?", DbType = "SqlDbType.NChar", LengthDivisor = 2 }},
-			{"date", new ParameterTypeMap { ClrType = "DateTime?", DbType = "SqlDbType.Date", LengthDivisor = null }},
-			{"datetime", new ParameterTypeMap { ClrType = "DateTime?", DbType = "SqlDbType.DateTime", LengthDivisor = null }},
-			{"datetime2", new ParameterTypeMap { ClrType = "DateTime?", DbType = "SqlDbType.DateTime2", LengthDivisor = null }},
-			{"smalldatetime", new ParameterTypeMap { ClrType = "DateTime?", DbType = "SqlDbType.SmallDateTime", LengthDivisor = null }},
-			{"datetimeoffset", new ParameterTypeMap { ClrType = "DateTimeOffset?", DbType = "SqlDbType.DateTimeOffset", LengthDivisor = null }},
-			{"timestamp", new ParameterTypeMap { ClrType = "DateTime?", DbType = "SqlDbType.SmallDateTime", LengthDivisor = null }},
-			{"time", new ParameterTypeMap { ClrType = "TimeSpan?", DbType = "SqlDbType.Time", LengthDivisor = null }},
-			{"varbinary", new ParameterTypeMap { ClrType = "byte[]?", DbType = "SqlDbType.VarBinary", LengthDivisor = null }},
-			{"binary", new ParameterTypeMap { ClrType = "byte[]?", DbType = "SqlDbType.VarBinary", LengthDivisor = null }},
-			{"money", new ParameterTypeMap { ClrType = "decimal?", DbType = "SqlDbType.Money", LengthDivisor = null }},
-			{"numeric", new ParameterTypeMap { ClrType = "decimal?", DbType = "SqlDbType.Decimal", LengthDivisor = null }},
-			{"decimal", new ParameterTypeMap { ClrType = "decimal?", DbType = "SqlDbType.Decimal", LengthDivisor = null }},
-			{"real", new ParameterTypeMap { ClrType = "float?", DbType = "SqlDbType.Real", LengthDivisor = null }},
-			{"float", new ParameterTypeMap { ClrType = "double?", DbType = "SqlDbType.Float", LengthDivisor = null }},
-			{"uniqueidentifier", new ParameterTypeMap { ClrType = "Guid?", DbType = "SqlDbType.UniqueIdentifier", LengthDivisor = null }}
-		};
-	*/
-	public static Type MapType(string input)
+	public static Type? MapType(string input)
 	{
 
 		// Clean ()
@@ -167,8 +154,10 @@ public static class Utility
 		{
 			case "varchar":
 			case "nvarchar":
+			case "nchar":
 			case "xml":
 			case "char":
+			case "sysname":
 				return typeof(string);
 			case "smallint":
 				return typeof(short);
@@ -181,7 +170,7 @@ public static class Utility
 			case "float":
 			case "real":
 				return typeof(float);
-			case "biting":
+			case "bigint":
 				return typeof(long);
 			case "bit":
 				return typeof(bool);
@@ -204,7 +193,7 @@ public static class Utility
 
 		}
 
-		return typeof(void);
+		return null;
 	}
 
 	public static CodeTypeDeclaration GetClass(string name) => new CodeTypeDeclaration(name)
@@ -232,5 +221,23 @@ public static class Utility
 			provider.GenerateCodeFromCompileUnit(compileUnit, writer, codeGenereationOptions);
 			return writer.GetStringBuilder().ToString();
 		}
+	}
+
+
+	public static Config GetConfig()
+	{
+		if (File.Exists("./local.json"))
+		{
+			return JsonSerializer.Deserialize<Config>(File.ReadAllText("./local.json"));
+		}
+		if (File.Exists("./config.json"))
+		{
+			return JsonSerializer.Deserialize<Config>(File.ReadAllText("./config.json"));
+		}
+		else
+		{
+			Console.WriteLine("No config file found");
+		}
+		return null;
 	}
 }

@@ -18,7 +18,9 @@ internal static class DbExecute
 
 	public static MetaData GetMeta()
 	{
-		var rows=new List< Procedure>();
+		var procedures=new List< Procedure>();
+		var udts=new List<UTD>();
+
 		using (var conn = new SqlConnection(ConnectionString))
 		{
 			using (var comm = new SqlCommand(Files.ProceduresMetaSQL(), conn))
@@ -29,6 +31,7 @@ internal static class DbExecute
 					string className = string.Empty;
 					string procName = string.Empty;
 
+					// Procedures
 					while (dr.Read())
 					{
 						var meta=new Procedure();
@@ -46,14 +49,35 @@ internal static class DbExecute
 						{
 							meta.Dependencies = JsonSerializer.Deserialize<Dependency[]>(dr["Dependencies"].ToString());
 						}
-						rows.Add(meta);
+						procedures.Add(meta);
 					}
+					dr.NextResult();
+					// UDTs
+					while (dr.Read())
+					{
+						var meta=new UTD();
+						meta.Id = dr["Id"].ToString();
+						meta.Name = dr["Name"].ToString();
+						meta.Schema = dr["Schema"].ToString();
+						meta.DisplayName = dr["DisplayName"].ToString();
+						if (dr["Fields"] != DBNull.Value)
+						{
+							meta.Fields = JsonSerializer.Deserialize<Field[]>(dr["Fields"].ToString());
+						}
+						if (dr["IsTableType"] != DBNull.Value)
+						{
+							meta.IsTableType = Boolean.Parse(dr["IsTableType"].ToString());
+						}
+						udts.Add(meta);
+					}
+
 				}
 			}
 		}
 		return new MetaData
 		{
-			Procedures = rows.ToArray()
+			Procedures = procedures.ToArray(),
+			UserDefinedTypes = udts.ToArray()
 		};
 	}
 

@@ -1,34 +1,44 @@
 ﻿using System.Reflection;
 
-
 internal class Program
 {
     static void Main(string[] args)
     {
         Console.Clear();
-        // var x=Utility.MapType("decimal(14,4)");
-        // Console.WriteLine(x);
-        // return;
-        var versionString = Assembly.GetEntryAssembly()?
-                                   .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-                                   .InformationalVersion
-                                   .ToString();
 
-        Console.WriteLine($"Iceland v{versionString}");
+        Console.WriteLine($"Iceland v{Utility.Version}");
 
-        if (args.Length == 0)
+        if (args.Length > 0)
         {
-            Console.WriteLine("No argument provided");
-            return;
+            var  connectionString = args[1];
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                Console.WriteLine("No argument provided or config file is provided");
+                Console.WriteLine(Environment.CurrentDirectory);
+                return;
+            }
+            Generator.Run(
+           connectionString
+       );
         }
+        else
+        {
+            var config= Utility.GetConfig();
 
-        var connectionString = args[1];
+            foreach (var project in config.Projects)
+            {
+                var connectionString = project.ConnectionString;
 
-        Console.WriteLine(@$"ConnectionString: {connectionString}");
-
-        Generator.Run(
-            connectionString
-        );
-
+                if (string.IsNullOrWhiteSpace(connectionString))
+                {
+                    Console.WriteLine("No argument provided or config file is provided");
+                    Console.WriteLine(Environment.CurrentDirectory);
+                    return;
+                }
+                Generator.Run(
+                    connectionString
+                );
+            }
+        }
     }
 }

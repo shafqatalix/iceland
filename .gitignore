@@ -16,5 +16,6 @@ nupkg/
 .DS_Store
 
 
-local.sh
+local.*
+#generated/
 

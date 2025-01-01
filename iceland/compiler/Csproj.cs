@@ -26,19 +26,19 @@ internal class Csproj
             writer.WriteElementString("Version", "0.0.1-alpha");
             writer.WriteEndElement(); // PropertyGroup
 
-            // First ItemGroup element with AdditionalFiles
-            writer.WriteStartElement("ItemGroup");
-            writer.WriteStartElement("AdditionalFiles");
-            writer.WriteAttributeString("Include", "$([MSBuild]::GetPathOfFileAbove(BannedSymbols.txt))");
-            writer.WriteEndElement(); // AdditionalFiles
-            writer.WriteEndElement(); // ItemGroup
-
             // Second ItemGroup element with PackageReference
             writer.WriteStartElement("ItemGroup");
             writer.WriteStartElement("PackageReference");
+
             writer.WriteAttributeString("Include", "Microsoft.Data.SqlClient");
             writer.WriteAttributeString("Version", "5.2.2");
             writer.WriteEndElement(); // PackageReference
+
+            writer.WriteStartElement("PackageReference");
+            writer.WriteAttributeString("Include", "Microsoft.Extensions.Logging");
+            writer.WriteAttributeString("Version", "9.0.0");
+            writer.WriteEndElement(); // PackageReference
+
             writer.WriteEndElement(); // ItemGroup
 
             writer.WriteEndElement(); // Project
