@@ -23,13 +23,11 @@ namespace SampleDB.Procedures.dbo
   
   public class SalesByCategoryParameters
   {
-    public string CategoryName;
-    public string OrdYear;
+public System.String CategoryName {get;set;}public System.String OrdYear {get;set;}
   }
   public class SalesByCategoryReturnType
   {
-    public string ProductName;
-    public decimal TotalPurchase;
+public System.String ProductName {get;set;}public System.Decimal TotalPurchase {get;set;}
   }
   public class SalesByCategory
   {
@@ -51,7 +49,7 @@ parameters[0]= CategoryName;
 var OrdYear = new SqlParameter("@OrdYear", args.OrdYear);
 parameters[1]= OrdYear;
 
-var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<SalesByCategoryReturnType>(_database, _activity, _logger, "dbo.SalesByCategory", parameters);
+var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<SalesByCategoryReturnType>(_database, _activity, _logger, "[dbo].[SalesByCategory]", parameters);
       return result.FirstOrDefault();
     }
   }

@@ -23,11 +23,11 @@ namespace SampleDB.Procedures.dbo
   
   public class byroyaltyParameters
   {
-    public int percentage;
+public System.Int32 percentage {get;set;}
   }
   public class byroyaltyReturnType
   {
-    public string au_id;
+public System.String au_id {get;set;}
   }
   public class byroyalty
   {
@@ -46,7 +46,7 @@ var parameters=new SqlParameter[1];
 var percentage = new SqlParameter("@percentage", args.percentage);
 parameters[0]= percentage;
 
-var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<byroyaltyReturnType>(_database, _activity, _logger, "dbo.byroyalty", parameters);
+var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<byroyaltyReturnType>(_database, _activity, _logger, "[dbo].[byroyalty]", parameters);
       return result.FirstOrDefault();
     }
   }

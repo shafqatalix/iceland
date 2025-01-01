@@ -1,7 +1,7 @@
 ﻿
 internal static class Files
 {
-    public static string ProceduresMetaSQL()
+    public static string MetaSQL()
     {
         return @$"
 

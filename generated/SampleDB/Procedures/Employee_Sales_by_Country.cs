@@ -21,30 +21,26 @@ using UserDefinedTypes;
 namespace SampleDB.Procedures.dbo
 {
   
-  public class Sales by YearParameters
+  public class Employee_Sales_by_CountryParameters
   {
-    public System.DateTime Beginning_Date;
-    public System.DateTime Ending_Date;
+public System.DateTime Beginning_Date {get;set;}public System.DateTime Ending_Date {get;set;}
   }
-  public class Sales by YearReturnType
+  public class Employee_Sales_by_CountryReturnType
   {
-    public int OrderID;
-    public System.DateTime ShippedDate;
-    public decimal Subtotal;
-    public string Year;
+public System.String Country {get;set;}public System.String FirstName {get;set;}public System.String LastName {get;set;}public System.Int32 OrderID {get;set;}public System.Decimal SaleAmount {get;set;}public System.DateTime ShippedDate {get;set;}
   }
-  public class Sales by Year
+  public class Employee_Sales_by_Country
   {
     private IDatabase _database;
     private ILogger _logger;
     private ActivitySource _activity;
-    public Sales by Year(IDatabase database, ILogger logger = null)
+    public Employee_Sales_by_Country(IDatabase database, ILogger logger = null)
     {
       this._database = database;
       this._logger = logger;
       this._activity = new ActivitySource("StoredProcedure", Helpers.Version);
     }
-    public virtual async Task<Sales by YearReturnType> ExecuteAsync(Sales by YearParameters args)
+    public virtual async Task<Employee_Sales_by_CountryReturnType> ExecuteAsync(Employee_Sales_by_CountryParameters args)
     {
 var parameters=new SqlParameter[2];
 var Beginning_Date = new SqlParameter("@Beginning_Date", args.Beginning_Date);
@@ -53,7 +49,7 @@ parameters[0]= Beginning_Date;
 var Ending_Date = new SqlParameter("@Ending_Date", args.Ending_Date);
 parameters[1]= Ending_Date;
 
-var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<Sales by YearReturnType>(_database, _activity, _logger, "dbo.Sales by Year", parameters);
+var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<Employee_Sales_by_CountryReturnType>(_database, _activity, _logger, "[dbo].[Employee Sales by Country]", parameters);
       return result.FirstOrDefault();
     }
   }

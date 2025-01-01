@@ -3,10 +3,10 @@ using System.CodeDom;
 
 internal class ExtensionMethods
 {
-    readonly CodeSnippetCompileUnit _compileUnit;
+    private readonly CodeSnippetCompileUnit _compileUnit;
 
 
-    private string _code=@$"        
+    private readonly string _code=@$"        
 using System;
 using Microsoft.Data;
 using System.Reflection;

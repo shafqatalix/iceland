@@ -6,6 +6,13 @@
       "type": "dotnet",
       "request": "launch",
       "projectPath": "${workspaceFolder}/iceland/iceland.csproj"
+    },
+    {
+      "name": "C#: Sample-App",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/sample-app/sample-app.csproj",
+      "launchConfigurationId": "TargetFramework=;sample-app"
     }
   ]
 }

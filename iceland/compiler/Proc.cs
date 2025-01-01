@@ -1,14 +1,11 @@
 
 using System.CodeDom;
-using System.CodeDom.Compiler;
-using Microsoft.CSharp;
 
 public class Proc
 {
     private readonly CodeCompileUnit _compileUnit = new CodeCompileUnit();
     private CodeNamespace _codeNamespace;
     private readonly Procedure _procedure;
-    private readonly CodeTypeReference voidType = new CodeTypeReference(typeof(void));
     private readonly string _outputFileName;
     private readonly string _databaseName;
     private readonly MetaData _meta;
@@ -17,7 +14,7 @@ public class Proc
     {
         _procedure = procedure;
         _databaseName = databaseName;
-        _outputFileName = @$"{procedure.Name}.cs";
+        _outputFileName = @$"{procedure.DisplayName}.cs";
         _meta = meta;
 
     }
@@ -43,6 +40,28 @@ public class Proc
             return field;
         }
     }
+    private CodeSnippetTypeMember GetCodeMemberField2(string name, string type)
+    {
+        var mappedType = Utility.MapType(type);
+        if (mappedType is null)
+        {
+            var udt=_meta.UserDefinedTypes.Where(u=> u.Name== type).FirstOrDefault();
+            if (udt is null)
+            {
+                throw new Exception(@$"Could not find type for name:${name}, type:${type}");
+            }
+            var  field = new CodeSnippetTypeMember(@$"public {udt.DisplayName} {name} {{get;set;}}");
+            //field.Attributes = MemberAttributes.Public;
+            return field;
+        }
+        else
+        {
+            var  field = new CodeSnippetTypeMember(@$"public {mappedType} {name} {{get;set;}}");
+            //field.Attributes = MemberAttributes.Public;
+            return field;
+        }
+    }
+
 
     private void AddImportStatements()
     {
@@ -75,7 +94,8 @@ public class Proc
                 if (m.Type is null)
                     throw new Exception(@$"{_procedure.Name} -> Type is not defined for {m.Name}");
 
-                currentClass.Members.Add(GetCodeMemberField(m.Name, m.Type));
+                currentClass.Members.Add(GetCodeMemberField2(m.Name, m.Type));
+
             }
             _codeNamespace.Types.Add(currentClass);
             return currentClass;
@@ -113,7 +133,8 @@ public class Proc
         var currentClass = Utility.GetClass(Utility.ReturnTypeClassName(_procedure));
         foreach (var m in _procedure.ReturnType.Where(t => !string.IsNullOrWhiteSpace(t.Name)))
         {
-            currentClass.Members.Add(GetCodeMemberField(m.Name, m.Type));
+            currentClass.Members.Add(GetCodeMemberField2(m.Name, m.Type));
+
         }
         _codeNamespace.Types.Add(currentClass);
         return currentClass;
@@ -166,7 +187,7 @@ public class Proc
         //Create the inner 'command' statement
         executeMethod.Statements.Add(new CodeSnippetStatement("{"));
         executeMethod.Statements.Add(new CodeSnippetStatement("Helpers.TraceConnection(span, connection);"));
-        executeMethod.Statements.Add(new CodeSnippetStatement(@$"using (var command = new SqlCommand(""{_procedure.Name}"", connection))"));
+        executeMethod.Statements.Add(new CodeSnippetStatement(@$"using (var command = new SqlCommand(""[{_procedure.Schema}].[{_procedure.Name}]"", connection))"));
         executeMethod.Statements.Add(new CodeSnippetStatement("{"));
         executeMethod.Statements.Add(new CodeSnippetStatement("Helpers.TraceCommand(span, command);"));
         executeMethod.Statements.Add(new CodeSnippetStatement("command.CommandType = CommandType.StoredProcedure;"));
@@ -280,7 +301,7 @@ public class Proc
             }
             else
             {
-                executeMethod.Statements.Add(new CodeSnippetStatement(@$"var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<{Utility.ReturnTypeClassName(_procedure)}>(_database, _activity, _logger, ""{_procedure.Schema}.{_procedure.Name}"", parameters);"));
+                executeMethod.Statements.Add(new CodeSnippetStatement(@$"var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<{Utility.ReturnTypeClassName(_procedure)}>(_database, _activity, _logger, ""[{_procedure.Schema}].[{_procedure.Name}]"", parameters);"));
                 ExtractOutParametersValues(executeMethod);
                 //return statement 
                 executeMethod.Statements.Add(new CodeMethodReturnStatement(new CodeVariableReferenceExpression("result.FirstOrDefault()")));
@@ -288,7 +309,7 @@ public class Proc
         }
         else
         {
-            executeMethod.Statements.Add(new CodeSnippetStatement(@$"await Helpers.ExecuteStoredProcedureAsync(_database, _activity,_logger, ""{_procedure.Schema}.{_procedure.Name}"", parameters);"));
+            executeMethod.Statements.Add(new CodeSnippetStatement(@$"await Helpers.ExecuteStoredProcedureAsync(_database, _activity,_logger, ""[{_procedure.Schema}].[{_procedure.Name}]"", parameters);"));
             ExtractOutParametersValues(executeMethod);
         }
         parentClass.Members.Add(executeMethod);
@@ -300,7 +321,7 @@ public class Proc
 
         var parametersClass = InputArgumentsClass();
         var returnTypeClass = ReturnTypeClass();
-        var parentClass = Utility.GetClass(_procedure.Name);
+        var parentClass = Utility.GetClass(_procedure.DisplayName);
         _codeNamespace.Types.Add(parentClass);
 
         // Declare the private readonly fields

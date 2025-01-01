@@ -1,8 +1,6 @@
-﻿using System.Reflection;
-
-internal class Program
+﻿internal class Program
 {
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
         Console.Clear();
 
@@ -17,9 +15,7 @@ internal class Program
                 Console.WriteLine(Environment.CurrentDirectory);
                 return;
             }
-            Generator.Run(
-           connectionString
-       );
+            Generator.Run(connectionString);
         }
         else
         {

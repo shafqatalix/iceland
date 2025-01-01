@@ -1,8 +1,4 @@
-
-using System.CodeDom;
-using System.CodeDom.Compiler;
 using System.Xml;
-using Microsoft.CSharp;
 
 internal class Csproj
 {

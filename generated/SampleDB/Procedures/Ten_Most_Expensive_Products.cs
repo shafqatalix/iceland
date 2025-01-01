@@ -21,26 +21,25 @@ using UserDefinedTypes;
 namespace SampleDB.Procedures.dbo
 {
   
-  public class Ten Most Expensive ProductsReturnType
+  public class Ten_Most_Expensive_ProductsReturnType
   {
-    public string TenMostExpensiveProducts;
-    public decimal UnitPrice;
+public System.String TenMostExpensiveProducts {get;set;}public System.Decimal UnitPrice {get;set;}
   }
-  public class Ten Most Expensive Products
+  public class Ten_Most_Expensive_Products
   {
     private IDatabase _database;
     private ILogger _logger;
     private ActivitySource _activity;
-    public Ten Most Expensive Products(IDatabase database, ILogger logger = null)
+    public Ten_Most_Expensive_Products(IDatabase database, ILogger logger = null)
     {
       this._database = database;
       this._logger = logger;
       this._activity = new ActivitySource("StoredProcedure", Helpers.Version);
     }
-    public virtual async Task<Ten Most Expensive ProductsReturnType> ExecuteAsync()
+    public virtual async Task<Ten_Most_Expensive_ProductsReturnType> ExecuteAsync()
     {
 var parameters=new SqlParameter[0];
-var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<Ten Most Expensive ProductsReturnType>(_database, _activity, _logger, "dbo.Ten Most Expensive Products", parameters);
+var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<Ten_Most_Expensive_ProductsReturnType>(_database, _activity, _logger, "[dbo].[Ten Most Expensive Products]", parameters);
       return result.FirstOrDefault();
     }
   }

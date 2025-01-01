@@ -23,15 +23,11 @@ namespace SampleDB.Procedures.dbo
   
   public class CustOrdersDetailParameters
   {
-    public int OrderID;
+public System.Int32 OrderID {get;set;}
   }
   public class CustOrdersDetailReturnType
   {
-    public int Discount;
-    public decimal ExtendedPrice;
-    public string ProductName;
-    public short Quantity;
-    public decimal UnitPrice;
+public System.Int32 Discount {get;set;}public System.Decimal ExtendedPrice {get;set;}public System.String ProductName {get;set;}public System.Int16 Quantity {get;set;}public System.Decimal UnitPrice {get;set;}
   }
   public class CustOrdersDetail
   {
@@ -50,7 +46,7 @@ var parameters=new SqlParameter[1];
 var OrderID = new SqlParameter("@OrderID", args.OrderID);
 parameters[0]= OrderID;
 
-var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<CustOrdersDetailReturnType>(_database, _activity, _logger, "dbo.CustOrdersDetail", parameters);
+var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<CustOrdersDetailReturnType>(_database, _activity, _logger, "[dbo].[CustOrdersDetail]", parameters);
       return result.FirstOrDefault();
     }
   }

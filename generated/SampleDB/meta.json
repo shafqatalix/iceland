@@ -1,7 +1,531 @@
-
-		{
-		"Database":"SampleDB",
-		"Procedures":[{"Name":"byroyalty","Schema":"dbo","Parameters":[{"Name":"percentage","Type":"int","Length":4,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false}],"ReturnType":[{"IsMultiResult":0,"Type":"varchar(11)","Name":"au_id","IsNullable":false,"Length":11}],"Dependencies":[{"ChildProcedure":"titleauthor"}]},{"Name":"reptq1","Schema":"dbo","Parameters":null,"ReturnType":[{"IsMultiResult":0,"Type":"money","Name":"avg_price","IsNullable":true,"Length":8},{"IsMultiResult":0,"Type":"varchar(4)","Name":"pub_id","IsNullable":true,"Length":4}],"Dependencies":[{"ChildProcedure":"titles"}]},{"Name":"reptq2","Schema":"dbo","Parameters":null,"ReturnType":[{"IsMultiResult":0,"Type":"int","Name":"avg_ytd_sales","IsNullable":true,"Length":4},{"IsMultiResult":0,"Type":"varchar(4)","Name":"pub_id","IsNullable":true,"Length":4},{"IsMultiResult":0,"Type":"varchar(12)","Name":"type","IsNullable":true,"Length":12}],"Dependencies":[{"ChildProcedure":"titles"}]},{"Name":"reptq3","Schema":"dbo","Parameters":[{"Name":"hilimit","Type":"money","Length":8,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false},{"Name":"lolimit","Type":"money","Length":8,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false},{"Name":"type","Type":"char","Length":12,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false}],"ReturnType":[{"IsMultiResult":0,"Type":"int","Name":"cnt","IsNullable":true,"Length":4},{"IsMultiResult":0,"Type":"varchar(4)","Name":"pub_id","IsNullable":true,"Length":4},{"IsMultiResult":0,"Type":"varchar(12)","Name":"type","IsNullable":true,"Length":12}],"Dependencies":[{"ChildProcedure":"titles"}]},{"Name":"Ten Most Expensive Products","Schema":"dbo","Parameters":null,"ReturnType":[{"IsMultiResult":0,"Type":"nvarchar(40)","Name":"TenMostExpensiveProducts","IsNullable":false,"Length":80},{"IsMultiResult":0,"Type":"money","Name":"UnitPrice","IsNullable":true,"Length":8}],"Dependencies":[{"ChildProcedure":"Products"}]},{"Name":"Employee Sales by Country","Schema":"dbo","Parameters":[{"Name":"Beginning_Date","Type":"datetime","Length":8,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false},{"Name":"Ending_Date","Type":"datetime","Length":8,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false}],"ReturnType":[{"IsMultiResult":0,"Type":"nvarchar(15)","Name":"Country","IsNullable":true,"Length":30},{"IsMultiResult":0,"Type":"nvarchar(10)","Name":"FirstName","IsNullable":false,"Length":20},{"IsMultiResult":0,"Type":"nvarchar(20)","Name":"LastName","IsNullable":false,"Length":40},{"IsMultiResult":0,"Type":"int","Name":"OrderID","IsNullable":false,"Length":4},{"IsMultiResult":0,"Type":"money","Name":"SaleAmount","IsNullable":true,"Length":8},{"IsMultiResult":0,"Type":"datetime","Name":"ShippedDate","IsNullable":true,"Length":8}],"Dependencies":[{"ChildProcedure":"Employees"},{"ChildProcedure":"Orders"},{"ChildProcedure":"Order Subtotals"}]},{"Name":"Sales by Year","Schema":"dbo","Parameters":[{"Name":"Beginning_Date","Type":"datetime","Length":8,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false},{"Name":"Ending_Date","Type":"datetime","Length":8,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false}],"ReturnType":[{"IsMultiResult":0,"Type":"int","Name":"OrderID","IsNullable":false,"Length":4},{"IsMultiResult":0,"Type":"datetime","Name":"ShippedDate","IsNullable":true,"Length":8},{"IsMultiResult":0,"Type":"money","Name":"Subtotal","IsNullable":true,"Length":8},{"IsMultiResult":0,"Type":"nvarchar(30)","Name":"Year","IsNullable":true,"Length":60}],"Dependencies":[{"ChildProcedure":"Orders"},{"ChildProcedure":"Order Subtotals"}]},{"Name":"CustOrdersDetail","Schema":"dbo","Parameters":[{"Name":"OrderID","Type":"int","Length":4,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false}],"ReturnType":[{"IsMultiResult":0,"Type":"int","Name":"Discount","IsNullable":true,"Length":4},{"IsMultiResult":0,"Type":"money","Name":"ExtendedPrice","IsNullable":true,"Length":8},{"IsMultiResult":0,"Type":"nvarchar(40)","Name":"ProductName","IsNullable":false,"Length":80},{"IsMultiResult":0,"Type":"smallint","Name":"Quantity","IsNullable":false,"Length":2},{"IsMultiResult":0,"Type":"money","Name":"UnitPrice","IsNullable":false,"Length":8}],"Dependencies":[{"ChildProcedure":"Products"},{"ChildProcedure":"Order Details"}]},{"Name":"CustOrdersOrders","Schema":"dbo","Parameters":[{"Name":"CustomerID","Type":"nchar","Length":10,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false}],"ReturnType":[{"IsMultiResult":0,"Type":"datetime","Name":"OrderDate","IsNullable":true,"Length":8},{"IsMultiResult":0,"Type":"int","Name":"OrderID","IsNullable":false,"Length":4},{"IsMultiResult":0,"Type":"datetime","Name":"RequiredDate","IsNullable":true,"Length":8},{"IsMultiResult":0,"Type":"datetime","Name":"ShippedDate","IsNullable":true,"Length":8}],"Dependencies":[{"ChildProcedure":"Orders"}]},{"Name":"CustOrderHist","Schema":"dbo","Parameters":[{"Name":"CustomerID","Type":"nchar","Length":10,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false}],"ReturnType":[{"IsMultiResult":0,"Type":"nvarchar(40)","Name":"ProductName","IsNullable":false,"Length":80},{"IsMultiResult":0,"Type":"int","Name":"Total","IsNullable":true,"Length":4}],"Dependencies":[{"ChildProcedure":"Products"},{"ChildProcedure":"Order Details"},{"ChildProcedure":"Orders"},{"ChildProcedure":"Customers"}]},{"Name":"SalesByCategory","Schema":"dbo","Parameters":[{"Name":"CategoryName","Type":"nvarchar","Length":30,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false},{"Name":"OrdYear","Type":"nvarchar","Length":8,"IsOut":false,"IsUserDefinedType":false,"IsUserDefinedTableType":false}],"ReturnType":[{"IsMultiResult":0,"Type":"nvarchar(40)","Name":"ProductName","IsNullable":false,"Length":80},{"IsMultiResult":0,"Type":"decimal(38,2)","Name":"TotalPurchase","IsNullable":true,"Length":17}],"Dependencies":[{"ChildProcedure":"Order Details"},{"ChildProcedure":"Orders"},{"ChildProcedure":"Products"},{"ChildProcedure":"Categories"}]},],
-		"UserDefinedTypes":[{"Id":"0","Name":"DUMMY_TYPE","Schema":"","DisplayName":"DUMMY_TYPE","Fields":null,"IsTableType":true},] 
-		}
-		
+{
+  "Database": "SampleDB",
+  "Procedures": [
+    {
+      "Name": "byroyalty",
+      "DisplayName": "byroyalty",
+      "Schema": "dbo",
+      "Parameters": [
+        {
+          "Name": "percentage",
+          "DisplayName": "percentage",
+          "Type": "int",
+          "Length": 4,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        }
+      ],
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "varchar(11)",
+          "Name": "au_id",
+          "DisplayName": "au_id",
+          "IsNullable": false,
+          "Length": 11
+        }
+      ],
+      "Dependencies": [{ "ChildProcedure": "titleauthor" }]
+    },
+    {
+      "Name": "reptq1",
+      "DisplayName": "reptq1",
+      "Schema": "dbo",
+      "Parameters": null,
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "money",
+          "Name": "avg_price",
+          "DisplayName": "avg_price",
+          "IsNullable": true,
+          "Length": 8
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "varchar(4)",
+          "Name": "pub_id",
+          "DisplayName": "pub_id",
+          "IsNullable": true,
+          "Length": 4
+        }
+      ],
+      "Dependencies": [{ "ChildProcedure": "titles" }]
+    },
+    {
+      "Name": "reptq2",
+      "DisplayName": "reptq2",
+      "Schema": "dbo",
+      "Parameters": null,
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "int",
+          "Name": "avg_ytd_sales",
+          "DisplayName": "avg_ytd_sales",
+          "IsNullable": true,
+          "Length": 4
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "varchar(4)",
+          "Name": "pub_id",
+          "DisplayName": "pub_id",
+          "IsNullable": true,
+          "Length": 4
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "varchar(12)",
+          "Name": "type",
+          "DisplayName": "type",
+          "IsNullable": true,
+          "Length": 12
+        }
+      ],
+      "Dependencies": [{ "ChildProcedure": "titles" }]
+    },
+    {
+      "Name": "reptq3",
+      "DisplayName": "reptq3",
+      "Schema": "dbo",
+      "Parameters": [
+        {
+          "Name": "hilimit",
+          "DisplayName": "hilimit",
+          "Type": "money",
+          "Length": 8,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        },
+        {
+          "Name": "lolimit",
+          "DisplayName": "lolimit",
+          "Type": "money",
+          "Length": 8,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        },
+        {
+          "Name": "type",
+          "DisplayName": "type",
+          "Type": "char",
+          "Length": 12,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        }
+      ],
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "int",
+          "Name": "cnt",
+          "DisplayName": "cnt",
+          "IsNullable": true,
+          "Length": 4
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "varchar(4)",
+          "Name": "pub_id",
+          "DisplayName": "pub_id",
+          "IsNullable": true,
+          "Length": 4
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "varchar(12)",
+          "Name": "type",
+          "DisplayName": "type",
+          "IsNullable": true,
+          "Length": 12
+        }
+      ],
+      "Dependencies": [{ "ChildProcedure": "titles" }]
+    },
+    {
+      "Name": "Ten Most Expensive Products",
+      "DisplayName": "Ten_Most_Expensive_Products",
+      "Schema": "dbo",
+      "Parameters": null,
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "nvarchar(40)",
+          "Name": "TenMostExpensiveProducts",
+          "DisplayName": "TenMostExpensiveProducts",
+          "IsNullable": false,
+          "Length": 80
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "money",
+          "Name": "UnitPrice",
+          "DisplayName": "UnitPrice",
+          "IsNullable": true,
+          "Length": 8
+        }
+      ],
+      "Dependencies": [{ "ChildProcedure": "Products" }]
+    },
+    {
+      "Name": "Employee Sales by Country",
+      "DisplayName": "Employee_Sales_by_Country",
+      "Schema": "dbo",
+      "Parameters": [
+        {
+          "Name": "Beginning_Date",
+          "DisplayName": "Beginning_Date",
+          "Type": "datetime",
+          "Length": 8,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        },
+        {
+          "Name": "Ending_Date",
+          "DisplayName": "Ending_Date",
+          "Type": "datetime",
+          "Length": 8,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        }
+      ],
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "nvarchar(15)",
+          "Name": "Country",
+          "DisplayName": "Country",
+          "IsNullable": true,
+          "Length": 30
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "nvarchar(10)",
+          "Name": "FirstName",
+          "DisplayName": "FirstName",
+          "IsNullable": false,
+          "Length": 20
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "nvarchar(20)",
+          "Name": "LastName",
+          "DisplayName": "LastName",
+          "IsNullable": false,
+          "Length": 40
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "int",
+          "Name": "OrderID",
+          "DisplayName": "OrderID",
+          "IsNullable": false,
+          "Length": 4
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "money",
+          "Name": "SaleAmount",
+          "DisplayName": "SaleAmount",
+          "IsNullable": true,
+          "Length": 8
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "datetime",
+          "Name": "ShippedDate",
+          "DisplayName": "ShippedDate",
+          "IsNullable": true,
+          "Length": 8
+        }
+      ],
+      "Dependencies": [
+        { "ChildProcedure": "Employees" },
+        { "ChildProcedure": "Orders" },
+        { "ChildProcedure": "Order Subtotals" }
+      ]
+    },
+    {
+      "Name": "Sales by Year",
+      "DisplayName": "Sales_by_Year",
+      "Schema": "dbo",
+      "Parameters": [
+        {
+          "Name": "Beginning_Date",
+          "DisplayName": "Beginning_Date",
+          "Type": "datetime",
+          "Length": 8,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        },
+        {
+          "Name": "Ending_Date",
+          "DisplayName": "Ending_Date",
+          "Type": "datetime",
+          "Length": 8,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        }
+      ],
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "int",
+          "Name": "OrderID",
+          "DisplayName": "OrderID",
+          "IsNullable": false,
+          "Length": 4
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "datetime",
+          "Name": "ShippedDate",
+          "DisplayName": "ShippedDate",
+          "IsNullable": true,
+          "Length": 8
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "money",
+          "Name": "Subtotal",
+          "DisplayName": "Subtotal",
+          "IsNullable": true,
+          "Length": 8
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "nvarchar(30)",
+          "Name": "Year",
+          "DisplayName": "Year",
+          "IsNullable": true,
+          "Length": 60
+        }
+      ],
+      "Dependencies": [
+        { "ChildProcedure": "Orders" },
+        { "ChildProcedure": "Order Subtotals" }
+      ]
+    },
+    {
+      "Name": "CustOrdersDetail",
+      "DisplayName": "CustOrdersDetail",
+      "Schema": "dbo",
+      "Parameters": [
+        {
+          "Name": "OrderID",
+          "DisplayName": "OrderID",
+          "Type": "int",
+          "Length": 4,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        }
+      ],
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "int",
+          "Name": "Discount",
+          "DisplayName": "Discount",
+          "IsNullable": true,
+          "Length": 4
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "money",
+          "Name": "ExtendedPrice",
+          "DisplayName": "ExtendedPrice",
+          "IsNullable": true,
+          "Length": 8
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "nvarchar(40)",
+          "Name": "ProductName",
+          "DisplayName": "ProductName",
+          "IsNullable": false,
+          "Length": 80
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "smallint",
+          "Name": "Quantity",
+          "DisplayName": "Quantity",
+          "IsNullable": false,
+          "Length": 2
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "money",
+          "Name": "UnitPrice",
+          "DisplayName": "UnitPrice",
+          "IsNullable": false,
+          "Length": 8
+        }
+      ],
+      "Dependencies": [
+        { "ChildProcedure": "Products" },
+        { "ChildProcedure": "Order Details" }
+      ]
+    },
+    {
+      "Name": "CustOrdersOrders",
+      "DisplayName": "CustOrdersOrders",
+      "Schema": "dbo",
+      "Parameters": [
+        {
+          "Name": "CustomerID",
+          "DisplayName": "CustomerID",
+          "Type": "nchar",
+          "Length": 10,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        }
+      ],
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "datetime",
+          "Name": "OrderDate",
+          "DisplayName": "OrderDate",
+          "IsNullable": true,
+          "Length": 8
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "int",
+          "Name": "OrderID",
+          "DisplayName": "OrderID",
+          "IsNullable": false,
+          "Length": 4
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "datetime",
+          "Name": "RequiredDate",
+          "DisplayName": "RequiredDate",
+          "IsNullable": true,
+          "Length": 8
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "datetime",
+          "Name": "ShippedDate",
+          "DisplayName": "ShippedDate",
+          "IsNullable": true,
+          "Length": 8
+        }
+      ],
+      "Dependencies": [{ "ChildProcedure": "Orders" }]
+    },
+    {
+      "Name": "CustOrderHist",
+      "DisplayName": "CustOrderHist",
+      "Schema": "dbo",
+      "Parameters": [
+        {
+          "Name": "CustomerID",
+          "DisplayName": "CustomerID",
+          "Type": "nchar",
+          "Length": 10,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        }
+      ],
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "nvarchar(40)",
+          "Name": "ProductName",
+          "DisplayName": "ProductName",
+          "IsNullable": false,
+          "Length": 80
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "int",
+          "Name": "Total",
+          "DisplayName": "Total",
+          "IsNullable": true,
+          "Length": 4
+        }
+      ],
+      "Dependencies": [
+        { "ChildProcedure": "Products" },
+        { "ChildProcedure": "Order Details" },
+        { "ChildProcedure": "Orders" },
+        { "ChildProcedure": "Customers" }
+      ]
+    },
+    {
+      "Name": "SalesByCategory",
+      "DisplayName": "SalesByCategory",
+      "Schema": "dbo",
+      "Parameters": [
+        {
+          "Name": "CategoryName",
+          "DisplayName": "CategoryName",
+          "Type": "nvarchar",
+          "Length": 30,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        },
+        {
+          "Name": "OrdYear",
+          "DisplayName": "OrdYear",
+          "Type": "nvarchar",
+          "Length": 8,
+          "IsOut": false,
+          "IsUserDefinedType": false,
+          "IsUserDefinedTableType": false
+        }
+      ],
+      "ReturnType": [
+        {
+          "IsMultiResult": 0,
+          "Type": "nvarchar(40)",
+          "Name": "ProductName",
+          "DisplayName": "ProductName",
+          "IsNullable": false,
+          "Length": 80
+        },
+        {
+          "IsMultiResult": 0,
+          "Type": "decimal(38,2)",
+          "Name": "TotalPurchase",
+          "DisplayName": "TotalPurchase",
+          "IsNullable": true,
+          "Length": 17
+        }
+      ],
+      "Dependencies": [
+        { "ChildProcedure": "Order Details" },
+        { "ChildProcedure": "Orders" },
+        { "ChildProcedure": "Products" },
+        { "ChildProcedure": "Categories" }
+      ]
+    }
+  ],
+  "UserDefinedTypes": [
+    {
+      "Id": "0",
+      "Name": "DUMMY_TYPE",
+      "Schema": "",
+      "DisplayName": "DUMMY_TYPE",
+      "Fields": null,
+      "IsTableType": true
+    }
+  ]
+}

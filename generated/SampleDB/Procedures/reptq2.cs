@@ -23,9 +23,7 @@ namespace SampleDB.Procedures.dbo
   
   public class reptq2ReturnType
   {
-    public int avg_ytd_sales;
-    public string pub_id;
-    public string type;
+public System.Int32 avg_ytd_sales {get;set;}public System.String pub_id {get;set;}public System.String type {get;set;}
   }
   public class reptq2
   {
@@ -41,7 +39,7 @@ namespace SampleDB.Procedures.dbo
     public virtual async Task<reptq2ReturnType> ExecuteAsync()
     {
 var parameters=new SqlParameter[0];
-var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<reptq2ReturnType>(_database, _activity, _logger, "dbo.reptq2", parameters);
+var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<reptq2ReturnType>(_database, _activity, _logger, "[dbo].[reptq2]", parameters);
       return result.FirstOrDefault();
     }
   }

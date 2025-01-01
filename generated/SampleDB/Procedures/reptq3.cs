@@ -23,15 +23,11 @@ namespace SampleDB.Procedures.dbo
   
   public class reptq3Parameters
   {
-    public decimal hilimit;
-    public decimal lolimit;
-    public string type;
+public System.Decimal hilimit {get;set;}public System.Decimal lolimit {get;set;}public System.String type {get;set;}
   }
   public class reptq3ReturnType
   {
-    public int cnt;
-    public string pub_id;
-    public string type;
+public System.Int32 cnt {get;set;}public System.String pub_id {get;set;}public System.String type {get;set;}
   }
   public class reptq3
   {
@@ -56,7 +52,7 @@ parameters[1]= lolimit;
 var type = new SqlParameter("@type", args.type);
 parameters[2]= type;
 
-var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<reptq3ReturnType>(_database, _activity, _logger, "dbo.reptq3", parameters);
+var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<reptq3ReturnType>(_database, _activity, _logger, "[dbo].[reptq3]", parameters);
       return result.FirstOrDefault();
     }
   }

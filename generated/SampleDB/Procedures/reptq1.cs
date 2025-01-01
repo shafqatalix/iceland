@@ -23,8 +23,7 @@ namespace SampleDB.Procedures.dbo
   
   public class reptq1ReturnType
   {
-    public decimal avg_price;
-    public string pub_id;
+public System.Decimal avg_price {get;set;}public System.String pub_id {get;set;}
   }
   public class reptq1
   {
@@ -40,7 +39,7 @@ namespace SampleDB.Procedures.dbo
     public virtual async Task<reptq1ReturnType> ExecuteAsync()
     {
 var parameters=new SqlParameter[0];
-var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<reptq1ReturnType>(_database, _activity, _logger, "dbo.reptq1", parameters);
+var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<reptq1ReturnType>(_database, _activity, _logger, "[dbo].[reptq1]", parameters);
       return result.FirstOrDefault();
     }
   }

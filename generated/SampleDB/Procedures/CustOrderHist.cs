@@ -23,12 +23,11 @@ namespace SampleDB.Procedures.dbo
   
   public class CustOrderHistParameters
   {
-    public string CustomerID;
+public System.String CustomerID {get;set;}
   }
   public class CustOrderHistReturnType
   {
-    public string ProductName;
-    public int Total;
+public System.String ProductName {get;set;}public System.Int32 Total {get;set;}
   }
   public class CustOrderHist
   {
@@ -47,7 +46,7 @@ var parameters=new SqlParameter[1];
 var CustomerID = new SqlParameter("@CustomerID", args.CustomerID);
 parameters[0]= CustomerID;
 
-var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<CustOrderHistReturnType>(_database, _activity, _logger, "dbo.CustOrderHist", parameters);
+var result = await Helpers.ExecuteStoredProcedureWithReaderAsync<CustOrderHistReturnType>(_database, _activity, _logger, "[dbo].[CustOrderHist]", parameters);
       return result.FirstOrDefault();
     }
   }

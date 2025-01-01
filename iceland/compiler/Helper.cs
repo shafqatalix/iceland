@@ -6,7 +6,7 @@ internal class Helper
 {
     private readonly CodeSnippetCompileUnit _cscu;
 
-    private string _code=@$"        
+    private readonly string _code=@$"        
 using System;
 using System.Data;
 using Microsoft.Data.SqlClient;

@@ -3,6 +3,7 @@ using System.Text.Json;
 public class Field
 {
     public string Name { get; set; }
+    public string DisplayName { get; set; }
     public string Type { get; set; }
 
 }
@@ -10,6 +11,7 @@ public class Field
 public class Parameter
 {
     public string Name { get; set; }
+    public string DisplayName { get; set; }
     public string Type { get; set; }
     public int Length { get; set; }
     public bool IsOut { get; set; }
@@ -24,6 +26,7 @@ public class ReturnType
     public ushort IsMultiResult { get; set; }
     public string Type { get; set; }
     public string Name { get; set; }
+    public string DisplayName { get; set; }
     public bool IsNullable { get; set; }
     public int Length { get; set; }
 }
@@ -35,6 +38,7 @@ public class Procedure
 {
     // public string ObjectId { get; set; }
     public string Name { get; set; }
+    public string DisplayName { get; set; }
     public string Schema { get; set; }
     public Parameter[]? Parameters { get; set; }
     public ReturnType[]? ReturnType { get; set; }
